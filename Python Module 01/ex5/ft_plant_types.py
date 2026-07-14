@@ -34,7 +34,7 @@ class Plant:
 class Flower(Plant):
     def __init__(
         self, name: str, height: float,
-        age_days: int, daygrow: float, color: str
+        age_days: int, daygrow: float, color: str = ""
     ) -> None:
         super().__init__(name, height, age_days, daygrow)
         self.color = color
@@ -56,7 +56,7 @@ class Flower(Plant):
 class Tree(Plant):
     def __init__(
         self, name: str, height: float,
-        age_days: int, daygrow: float, trunk: float
+        age_days: int, daygrow: float, trunk: float = 0.0
     ) -> None:
         super().__init__(name, height, age_days, daygrow)
         self.trunk = trunk

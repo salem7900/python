@@ -1,7 +1,7 @@
 class Plant:
     def __init__(
         self, name: str, height: float,
-        age_days: int, daygrow: float
+        age_days: int, daygrow: float = 1.0
     ) -> None:
         self.name = name
         self.height = height

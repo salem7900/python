@@ -5,11 +5,6 @@ class Plant:
             self.n_age = 0
             self.n_show = 0
 
-        def display(self, name: str) -> None:
-            print(f"[statistics for {name}]")
-            print(f"Stats: {self.n_grow} grow, {self.n_age} "
-                  f"age, {self.n_show} show")
-
     def __init__(
         self, name: str, height: float,
         age_days: int, daygrow: float
@@ -104,10 +99,6 @@ class Tree(Plant):
             super().__init__()
             self.n_shade = 0
 
-        def display(self, name: str) -> None:
-            super().display(name)
-            print(f"{self.n_shade} shade")
-
     def __init__(
         self, name: str, height: float,
         age_days: int, daygrow: float, trunk: float
@@ -146,14 +137,18 @@ class Vegetable(Plant):
         self.nvalue += 1
 
     def make_age(self, ndays: int) -> None:
-        for _ in range(1, ndays + 1):
+        for i in range(1, ndays + 1):
             self.age()
             super().grow()
         print(f"[make {self.name} grow and age for {ndays} days]")
 
 
 def display_stats(plant: Plant) -> None:
-    plant.stats.display(plant.name)
+    print(f"[statistics for {plant.name}]")
+    print(f"Stats: {plant.stats.n_grow} grow, {plant.stats.n_age} "
+          f"age, {plant.stats.n_show} show")
+    if isinstance(plant, Tree):
+        print(f"{plant.stats.n_shade} shade")
 
 
 def main() -> None:
