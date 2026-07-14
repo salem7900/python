@@ -43,7 +43,7 @@ class Plant:
         return self.age_days
 
     @staticmethod
-    def check_year(n_age) -> bool:
+    def check_year(n_age: int) -> bool:
         if n_age < 365:
             return False
         else:
@@ -105,8 +105,8 @@ class Tree(Plant):
     ) -> None:
         super().__init__(name, height, age_days, daygrow)
         self.trunk = trunk
-        self.stats = self.Statistics()
-
+        self.stats: Tree.Statistics = self.Statistics()
+        
     def show(self) -> None:
         super().show()
         print(f"Trunk diameter: {self.trunk}cm")

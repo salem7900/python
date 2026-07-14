@@ -42,15 +42,15 @@ class Flower(Plant):
 
     def bloom(self) -> None:
         self.bloomed = True
-        print("[asking the rose to bloom]")
+        print(f"[asking the {self.name} to bloom]")
 
     def show(self) -> None:
         super().show()
         print(f"Color: {self.color}")
         if self.bloomed:
-            print("Rose is blooming beautifully!")
+            print(f"{self.name} is blooming beautifully!")
         else:
-            print("Rose has not bloomed yet")
+            print(f"{self.name} has not bloomed yet")
 
 
 class Tree(Plant):
@@ -66,8 +66,8 @@ class Tree(Plant):
         print(f"Trunk diameter: {self.trunk}cm")
 
     def produce_shade(self) -> None:
-        print("[asking the oak to produce shade]")
-        print(f"Tree Oak now produces a shade of {self.height}cm "
+        print(f"[asking the {self.name} to produce shade]")
+        print(f"Tree {self.name} now produces a shade of {self.height}cm "
               f"long and {self.trunk}cm wide.")
 
 
@@ -93,7 +93,7 @@ class Vegetable(Plant):
         for i in range(1, ndays + 1):
             self.age()
             super().grow()
-        print(f"[make tomato grow and age for {ndays} days]")
+        print(f"[make {self.name} grow and age for {ndays} days]")
 
 
 def main() -> None:
