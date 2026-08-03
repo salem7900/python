@@ -4,7 +4,6 @@ import typing
 
 
 def main() -> None:
-    """Run the ancient text recovery demo."""
     if len(sys.argv) != 2:
         print("Usage: ft_ancient_text.py <filename>")
         return
