@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-from typing import Callable, List, Tuple
+from collections.abc import Callable
+from typing import List, Tuple
 
 
 def heal(target: str, power: int) -> str:
