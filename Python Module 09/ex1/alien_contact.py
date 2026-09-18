@@ -6,10 +6,10 @@ from enum import Enum
 
 
 class ContactType(str, Enum):
-    RADIO = "radio"
-    VISUAL = "visual"
-    PHYSICAL = "physical"
-    TELEPATHIC = "telepathic"
+    radio = "radio"
+    visual = "visual"
+    physical = "physical"
+    telepathic = "telepathic"
 
 
 class AlienContact(BaseModel):
@@ -31,13 +31,13 @@ class AlienContact(BaseModel):
 
     @model_validator(mode="after")
     def check_verification(self) -> "AlienContact":
-        if self.contact_type is ContactType.PHYSICAL and not self.is_verified:
+        if self.contact_type is ContactType.physical and not self.is_verified:
             raise ValueError("Physical contact reports must be verified")
         return self
 
     @model_validator(mode="after")
     def check_telepathic_witness(self) -> "AlienContact":
-        if (self.contact_type is ContactType.TELEPATHIC
+        if (self.contact_type is ContactType.telepathic
                 and self.witness_count < 3):
             raise ValueError("Telepathic contact "
                              "requires at least 3 witnesses")
@@ -58,7 +58,7 @@ def main() -> None:
         contact_id="AC_2024_001",
         timestamp=datetime.fromisoformat("2024-03-10T22:15:00"),
         location="Area 51, Nevada",
-        contact_type=ContactType.RADIO,
+        contact_type=ContactType.radio,
         signal_strength=8.5,
         duration_minutes=45,
         witness_count=5,
@@ -83,7 +83,7 @@ def main() -> None:
             contact_id="AC_2024_002",
             timestamp=datetime.fromisoformat("2024-03-11T03:00:00"),
             location="Area 51, Nevada",
-            contact_type=ContactType.TELEPATHIC,
+            contact_type=ContactType.telepathic,
             signal_strength=6.0,
             duration_minutes=20,
             witness_count=1,

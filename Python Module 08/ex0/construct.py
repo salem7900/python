@@ -5,9 +5,10 @@ import site
 
 
 def get_virtual_env_name() -> str:
-    """os.path.basename() restituisce l'ultima parte del percorso, quindi la cartella in cui c'è il venv
-    os.environ è un dizionario che contiene tutte le variabili d'ambiente del sistema
-    usando .get restuisci il contenuto della variabile o None se non c'è la variabile """
+    """os.path.basename() restituisce l'ultima parte del percorso,
+    quindi la cartella in cui c'è il venv os.environ è un dizionario
+    che contiene tutte le variabili d'ambiente del sistema usando .get
+    restuisci il contenuto della variabile o None se non c'è la variabile"""
     venv_path = os.environ.get("VIRTUAL_ENV")
     if venv_path:
         return os.path.basename(os.path.normpath(venv_path))
@@ -18,7 +19,8 @@ def is_virtual_env() -> bool:
     """sys.base_prefix punta alla cartella di installazione di python
         sys.prefix punta al venv se presente
         sys.real_prefix è creato solo con virtualenv
-        VIRTUAL_ENV è una variabile creata quando si usa source matrix_env/bin/activate"""
+        VIRTUAL_ENV è una variabile creata quando si usa source
+        matrix_env/bin/activate"""
     base_prefix_differs = (
             hasattr(sys, "base_prefix") and sys.base_prefix != sys.prefix
     )
@@ -29,7 +31,8 @@ def is_virtual_env() -> bool:
 
 
 def get_site_packages_path() -> str:
-    """site ritorna la cartella su cui python installa quando fai pip install"""
+    """site ritorna la cartella su cui python
+    installa quando fai pip install"""
     site_packages = site.getsitepackages()
     if site_packages:
         return site_packages[0]
@@ -48,7 +51,7 @@ def print_outside_matrix() -> None:
     print()
     print("To enter the construct, run:")
     print()
-    print("    python3 -m venv matrix_env")
+    print("    python -m venv matrix_env")
     print("    source matrix_env/bin/activate      # On Unix")
     print("    matrix_env\\Scripts\\activate         # On Windows")
     print()

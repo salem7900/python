@@ -13,7 +13,8 @@ REQUIRED_PACKAGES: Dict[str, str] = {
     "matplotlib": "Visualization",
 }
 
-# Packages that are nice to have but not mandatory (e.g. to fetch real data from an API instead of simulating it with numpy).
+# Packages that are nice to have but not mandatory
+# (e.g. to fetch real data from an API instead of simulating it with numpy).
 OPTIONAL_PACKAGES: Dict[str, str] = {
     "requests": "Network access",
 }
@@ -26,21 +27,36 @@ def get_version(package_name: str) -> Optional[str]:
     """Return the installed version of a package, or None if unknown."""
     try:
         return metadata.version(package_name)
-    except metadata.PackageNotFoundError:
+    except Exception:
         return None
 
 
 def load_module(module_name: str) -> Optional[ModuleType]:
     """Importa il modulo solo se esiste, altrimenti restituisce None
+    Both find_spec() and import_module() are wrapped in try/except:
+    find_spec() can raise ValueError (not just return None) when a
+    module has been forcibly disabled (e.g. a test harness setting
+    sys.modules[name] = None to simulate a missing dependency), and
+    import_module() can still raise ImportError in other edge cases.
+    Either situation must be treated the same way: "not available".
     """
-    spec = importlib.util.find_spec(module_name)
+    try:
+        spec = importlib.util.find_spec(module_name)
+    except Exception:
+        return None
+
     if spec is None:
         return None
-    return importlib.import_module(module_name)
+
+    try:
+        return importlib.import_module(module_name)
+    except Exception:
+        return None
 
 
 def check_dependencies() -> Tuple[Dict[str, ModuleType], bool]:
-    """Printa lo status di ogni pacchetto(richiesti + opzionali) dopo aver usato le due funzioni sopra.
+    """Printa lo status di ogni pacchetto(richiesti + opzionali)
+    dopo aver usato le due funzioni sopra.
     """
     print("Checking dependencies:")
     loaded: Dict[str, ModuleType] = {}
@@ -114,8 +130,9 @@ def compare_pip_poetry(loaded: Dict[str, ModuleType]) -> None:
 def generate_matrix_data(
     np_module: ModuleType, size: int
 ) -> "object":
-    """np_module.random.default_rng(seed=42) crea un generatore di numeri casuali.
-    Il seed=42 fa sì che i numeri "casuali" siano sempre gli stessi ad ogni esecuzione (utile per test riproducibili).
+    """np_module.random.default_rng(seed=42) crea un generatore di numeri
+    casuali. Il seed=42 fa sì che i numeri "casuali" siano sempre gli
+    stessi ad ogni esecuzione (utile per test riproducibili).
     """
     rng = np_module.random.default_rng(seed=42)
 
@@ -143,11 +160,15 @@ def analyze_and_plot(
     raw_data: "object",
     size: int,
 ) -> None:
-    """pd_module.DataFrame(raw_data) trasforma il dizionario di numeri in una tabella pandas.
-    .describe() calcola statistiche automatiche: media, minimo, massimo, percentili, ecc.
+    """pd_module.DataFrame(raw_data) trasforma il dizionario di numeri
+    in una tabella pandas.
+    .describe() calcola statistiche automatiche: media, minimo, massimo,
+    percentili, ecc.
     plt_module.subplots(2, 1, ...) crea una figura con 2 grafici impilati:
-    sopra il segnale nel tempo (linea), sotto la distribuzione delle anomalie (istogramma).
-    figure.savefig("matrix_analysis.png") salva il grafico su disco come immagine."""
+    sopra il segnale nel tempo (linea), sotto la distribuzione delle
+    anomalie (istogramma).
+    figure.savefig("matrix_analysis.png") salva il grafico su disco
+    come immagine."""
     print("Analyzing Matrix data...")
     print(f"Processing {size} data points...")
 
@@ -213,8 +234,10 @@ def main() -> int:
     return 0
 
 
-"""Lancia main() solo se il file viene eseguito direttamente, e usa sys.exit() per restituire al
-terminale il codice di uscita di main() (0 = tutto ok, 1 = errore/dipendenze mancanti)
-— così script esterni o CI possono sapere se il programma è andato a buon fine."""
+"""Lancia main() solo se il file viene eseguito direttamente,
+e usa sys.exit() per restituire al terminale il codice di uscita
+di main() (0 = tutto ok, 1 = errore/dipendenze mancanti)
+— così script esterni o CI possono sapere se il programma
+è andato a buon fine."""
 if __name__ == "__main__":
     sys.exit(main())

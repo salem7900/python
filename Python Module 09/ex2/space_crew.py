@@ -6,11 +6,11 @@ from enum import Enum
 
 
 class Rank(str, Enum):
-    CADET = "cadet"
-    OFFICER = "officer"
-    LIEUTENANT = "lieutenant"
-    CAPTAIN = "captain"
-    COMMANDER = "commander"
+    cadet = "cadet"
+    officer = "officer"
+    lieutenant = "lieutenant"
+    captain = "captain"
+    commander = "commander"
 
 
 class CrewMember(BaseModel):
@@ -42,7 +42,7 @@ class SpaceMission(BaseModel):
     @model_validator(mode="after")
     def check_command_rank_present(self) -> "SpaceMission":
         has_commander = any(
-            member.rank in (Rank.COMMANDER, Rank.CAPTAIN)
+            member.rank in (Rank.commander, Rank.captain)
             for member in self.crew
         )
         if not has_commander:
@@ -93,7 +93,7 @@ def main() -> None:
             CrewMember(
                 member_id="CM001",
                 name="Sarah Connor",
-                rank=Rank.COMMANDER,
+                rank=Rank.commander,
                 age=42,
                 specialization="Mission Command",
                 years_experience=15,
@@ -101,7 +101,7 @@ def main() -> None:
             CrewMember(
                 member_id="CM002",
                 name="John Smith",
-                rank=Rank.LIEUTENANT,
+                rank=Rank.lieutenant,
                 age=35,
                 specialization="Navigation",
                 years_experience=8,
@@ -109,7 +109,7 @@ def main() -> None:
             CrewMember(
                 member_id="CM003",
                 name="Alice Johnson",
-                rank=Rank.OFFICER,
+                rank=Rank.officer,
                 age=29,
                 specialization="Engineering",
                 years_experience=6,
@@ -146,7 +146,7 @@ def main() -> None:
                 CrewMember(
                     member_id="CM004",
                     name="Bob Martin",
-                    rank=Rank.CADET,
+                    rank=Rank.cadet,
                     age=24,
                     specialization="Navigation",
                     years_experience=1,
