@@ -79,8 +79,8 @@ def main() -> None:
 
     print("\nTesting partial enchanter...")
     enchantments = partial_enchanter(_base_enchantment)
-    print(enchantments["fire"]("Sword"))
-    print(enchantments["ice"]("Shield"))
+    print(enchantments["fire_enchant"]("Sword"))
+    print(enchantments["ice_enchant"]("Shield"))
 
     print("\nTesting memoized fibonacci...")
     print(f"Fib(1): {memoized_fibonacci(1)}")
